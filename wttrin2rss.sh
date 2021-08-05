@@ -1,5 +1,4 @@
 #!/bin/sh
-# generate RSS feed from wttr.in
 # optionally, the first argument specifies a location
 
 url="https://wttr.in/$1"
