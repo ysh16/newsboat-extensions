@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # filter for bibliogram feeds that redirects file links to the instagram source
+
 import sys, re
 from xml.sax.saxutils import unescape as xml_unescape, escape as xml_escape
 from urllib.parse import unquote as url_unquote
