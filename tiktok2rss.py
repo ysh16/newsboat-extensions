@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import sys, requests, json
-from lxml import html
+import json
+import requests
+import sys
 from datetime import datetime
+from lxml import html
 
 user = sys.argv[1]
 url = 'https://www.tiktok.com/@' + user

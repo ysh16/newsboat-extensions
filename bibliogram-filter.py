@@ -15,9 +15,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import sys, re
-from xml.sax.saxutils import unescape as xml_unescape, escape as xml_escape
+import sys
+import re
 from urllib.parse import unquote as url_unquote
+from xml.sax.saxutils import unescape as xml_unescape, escape as xml_escape
 
 proxy_re = r'https?://bibliogram\..*\/(image|video)proxy\?url='
 
