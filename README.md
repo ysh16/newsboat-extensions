@@ -19,6 +19,7 @@ simply as follows.
 ```
 ```
 "filter:~/newsboat-extensions/nitter-filter.awk | ~/newsboat-extensions/re-filter.py -i 'pattern':https://nitter.net/user-name/rss"
+```
 
 Licence
 -------
