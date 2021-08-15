@@ -35,8 +35,11 @@ tree.parse(sys.stdin)
 for channel in tree.findall('channel'):
     for item in tree.findall('.//item'):
         title = item.find('title')
+        description = item.find('description')
         if title is not None:
             match = bool(regex.search(title.text))
+            if not match and description is not None:
+                match = bool(regex.search(description.text))
             if match ^ (not args.v):
                 channel.remove(item)
 
