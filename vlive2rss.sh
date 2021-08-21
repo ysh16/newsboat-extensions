@@ -1,5 +1,5 @@
 #!/bin/sh
-# vlive2rss.sh - Takes full URL to the desired channel's starboard as argument.
+# vlive2rss.sh - Takes URL to the desired channel's Star Board as argument.
 # Copyright (C) 2021  ysh <thinkingaboutshu@waifu.club>
 #
 # This program is free software: you can redistribute it and/or modify
