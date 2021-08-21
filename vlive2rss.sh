@@ -1,5 +1,5 @@
 #!/bin/sh
-# vlive2rss.sh - Takes the full link to the desired channel as first argument.
+# vlive2rss.sh - Takes full URL to the desired channel's starboard as argument.
 # Copyright (C) 2021  ysh <thinkingaboutshu@waifu.club>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -16,30 +16,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 url="$1"
-channelseq=$(echo "$url" | awk -F'.*vlive.tv/channel/|/' '
-    function parsehex(V,OUT)
-    {
-        if(V ~ /^0x/)
-            V=substr(V,3)
-        for(N=1; N<=length(V); N++)
-            OUT=(OUT*16) + H[substr(V, N, 1)]
-        return(OUT)
-    }
-    BEGIN {
-        for(N=0; N<16; N++) {
-            H[sprintf("%x",N)]=N
-            H[sprintf("%X",N)]=N
-        }
-    }
-    {
-        hex = $2; len = length(hex)
-        hexswap = substr(hex, len/2 + 1 + len%2, len/2) \
-            substr(hex, 1, len/2 + len%2)
-        print (parsehex(hexswap) + 13) / 8191
-    }')
-json=$(curl -s "api.vfan.vlive.tv/vproxy/channelplus/getChannelVideoList?app_id=8c6cc7b45d2568fb668be6e05b6e5a3b&channelSeq=$channelseq&maxNumRows=2&pageNo=1")
+board=$(awk -v url="$url" 'BEGIN {
+		sub(/^.*board\//, "", url)
+		sub(/[^0-9].*$/, "", url)
+		print url
+	}')
+json=$(curl -s "https://www.vlive.tv/globalv-web/vam-web/post/v1.0/board-$board/videoPosts?appId=8c6cc7b45d2568fb668be6e05b6e5a3b&fields=officialVideo,channel%7BchannelName" \
+	-H "referer: $url")
 
-title=$(echo "$json" | jq -r '.result.channelInfo.channelName')
+title=$(echo "$json" | jq -r '.data[0].channel.channelName')
 cat <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
@@ -48,11 +33,14 @@ cat <<EOF
 <link>$url</link>
 EOF
 
-echo "$json" | jq -r '.result.videoList[] | [.title, .videoSeq, .onAirStartAt] | @tsv' \
+echo "$json" | jq -r '.data[].officialVideo
+		| [.title, .videoSeq, .onAirStartAt] | @tsv' \
 	| while read -r line; do
 		title=$(echo "$line" | cut -f1)
 		link='https://www.vlive.tv/video/'$(echo "$line" | cut -f2)
-		date=$(TZ='Asia/Seoul' date -d"$(echo "$line" | cut -f3)" +'%a, %d %b %Y %H:%M:%S %z')
+		date=$(TZ='Asia/Seoul' \
+			date -d"@$(echo "$line" | cut -f3 | sed 's/...$//')" \
+			+'%a, %d %b %Y %H:%M:%S %z')
 		cat <<-EOF
 		<item>
 		<title>$title</title>
