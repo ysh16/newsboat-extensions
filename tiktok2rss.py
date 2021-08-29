@@ -20,6 +20,7 @@ import requests
 import sys
 from datetime import datetime
 from lxml import html
+from html import escape
 
 user = sys.argv[1]
 url = 'https://www.tiktok.com/@' + user
@@ -54,7 +55,7 @@ for tiktok in data_dict['props']['pageProps']['items']:
     <guid>{2}</guid>
     <pubDate>{3}</pubDate>
     <description>{4}</description>
-    </item>""".format(title, link, guid, date, description))
+    </item>""".format(escape(title), link, guid, date, escape(description)))
 
 print("""
 </channel>
