@@ -37,6 +37,7 @@ echo "$json" | jq -r '.data[].officialVideo
 		| [.title, .videoSeq, .onAirStartAt] | @tsv' \
 	| while read -r line; do
 		title=$(echo "$line" | cut -f1)
+		[ ! -n "$title" ] && continue
 		link='https://www.vlive.tv/video/'$(echo "$line" | cut -f2)
 		date=$(TZ='Asia/Seoul' \
 			date -d"@$(echo "$line" | cut -f3 | sed 's/...$//')" \
