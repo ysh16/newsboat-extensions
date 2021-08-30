@@ -47,7 +47,7 @@ echo "$html" | grep 'class="gallery-list-head"' \
 				gsub(/".*$/, "")
 				if ($0 ~ /gfycat\.com\/IFR\/[a-zA-Z]/)
 					sub(/IFR\//, "")
-				print "<video src=\"" $0 "\"></video>"
+				print "<a href=\"" $0 "\"></href>"
 			}
 			END { print "]]>" }')
 		date=$(echo "$item_html" | awk '
