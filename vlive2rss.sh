@@ -34,13 +34,12 @@ cat <<EOF
 EOF
 
 echo "$json" | jq -r '.data[].officialVideo
-		| [.title, .videoSeq, .onAirStartAt] | @tsv' \
-	| while read -r line; do
-		title=$(echo "$line" | cut -f1)
-		[ ! -n "$title" ] && continue
-		link='https://www.vlive.tv/video/'$(echo "$line" | cut -f2)
+		| [.videoSeq, .onAirStartAt, .title] | @tsv' \
+	| while read -r videoSeq onAirStartAt title; do
+		[ -z "$title" ] && continue
+		link="https://www.vlive.tv/video/$videoSeq"
 		date=$(TZ='Asia/Seoul' \
-			date -d"@$(echo "$line" | cut -f3 | sed 's/...$//')" \
+			date -d"@${onAirStartAt%???}" \
 			+'%a, %d %b %Y %H:%M:%S %z')
 		cat <<-EOF
 		<item>
