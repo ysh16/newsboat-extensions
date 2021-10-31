@@ -21,6 +21,28 @@ simply as follows.
 "filter:~/newsboat-extensions/nitter-filter.awk | ~/newsboat-extensions/re-filter.py -i 'pattern':https://nitter.net/user-name/rss"
 ```
 
+Usage with [sfeed](https://codemadness.org/sfeed.html)
+------------------------------------------------------
+
+For example, overwrite the fetch function in the sfeedrc(5) as
+follows:
+
+```
+# fetch(name, url, feedfile)
+fetch() {
+	case "$2" in
+	exec:*)
+		sh -c "${2#exec:}" 2>/dev/null ;;
+	filter:*)
+		fstr=${2#filter:}
+		curl "${fstr#*:}" 2>/dev/null \
+			| sh -c "${fstr%%:*}" ;;
+	*)
+		curl "$2" 2>/dev/null ;;
+	esac
+}
+```
+
 Licence
 -------
 
