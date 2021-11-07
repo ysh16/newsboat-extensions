@@ -46,18 +46,21 @@ print("""<?xml version="1.0" encoding="UTF-8"?>
 for story in L.get_stories([profile.userid]):
     for item in story.get_items():
         if item.is_video:
-            link = item.video_url
+            media = item.video_url
             title = 'New video story from ' + args.profile
         else:
-            link = item.url
+            media = item.url
             title = 'New story from ' + args.profile
+        link = """https://www.instagram.com/stories/{0}/{1}""" \
+               .format(args.profile, item.mediaid)
         date = item.date.isoformat()
         print("""
         <item>
         <title>{0}</title>
         <link>{1}</link>
         <pubDate>{2}</pubDate>
-        </item>""".format(title, link, date))
+        <description><![CDATA[<a href="{3}"/>]]></description>
+        </item>""".format(title, link, date, media))
 
 print("""
 </channel>
