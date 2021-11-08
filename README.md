@@ -27,7 +27,7 @@ Usage with [sfeed](https://codemadness.org/sfeed.html)
 For example, overwrite the fetch function in the sfeedrc(5) as
 follows:
 
-```
+```sh
 # fetch(name, url, feedfile)
 fetch() {
 	case "$2" in
