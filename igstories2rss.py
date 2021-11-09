@@ -47,10 +47,9 @@ for story in L.get_stories([profile.userid]):
     for item in story.get_items():
         if item.is_video:
             media = item.video_url
-            title = 'New video story from ' + args.profile
         else:
             media = item.url
-            title = 'New story from ' + args.profile
+        title = 'New story from ' + args.profile
         link = """https://www.instagram.com/stories/{0}/{1}""" \
                .format(args.profile, item.mediaid)
         date = item.date.isoformat()
