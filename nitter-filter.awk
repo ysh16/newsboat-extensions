@@ -20,6 +20,7 @@
 	if ($0 !~ /ext_tw_video_thumb|video\.twimg\.com/)
 		gsub(/https?:\/\/nitter\.[a-z]+.[a-z]+\//, "https://twitter.com/")
 	gsub(/https?:\/\/invidious\.[a-z]+.[a-z]+\//, "https://youtu.be/")
-	gsub(/https?:\/\/redirect\.invidious\.io\//, "https://www.youtube.com/")
+	gsub(/https?:\/\/redirect\.invidious\.io\/watch\?v=/, "https://www.youtube.com/watch?v=")
+	gsub(/https?:\/\/redirect\.invidious\.io\//, "https://youtu.be/")
 	print
 }
