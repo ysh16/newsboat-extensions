@@ -1,7 +1,8 @@
 newsboat-extensions
 -------------------
 
-Collection of Snownews extensions meant for use with newsboat.
+Collection of RSS generator scripts originally meant for use with
+newsboat. Tested under several aggregators.
 
 So-called "execurl" scripts in this repository have `2rss` in their
 name, while the names of "filter" scripts contain `-filter`. For
