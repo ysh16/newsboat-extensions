@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# igstories2rss.py
+# igstories2rss.py - See -h for usage. Beware your account may get locked.
 # Copyright (C) 2021  ysh <thinkingaboutshu@waifu.club>
 #
 # This program is free software: you can redistribute it and/or modify
