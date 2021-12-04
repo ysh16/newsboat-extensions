@@ -61,7 +61,8 @@ for entries in data_dict['entries']:
     post_id = entries['post']['post_id']
     posts.setdefault(post_id, []).append(entries)
 
-feed_description = feed_title = owner + ' ' + type_ + ' selca'
+feed_description = feed_title = """{0} {1} Selca""".format(
+        owner.capitalize(), type_.capitalize())
 print("""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
