@@ -74,16 +74,18 @@ print("""<?xml version="1.0" encoding="UTF-8"?>
 for post_id in posts:
     entries = posts[post_id]
     text = entries[0]['post']['text']
-    if text is None:
-        text = '-'
     display_name = entries[0]['owner']['display_name']
     service = entries[0]['post']['service'].capitalize()
     if entries[0]['post']['ephemeral']:
         ephemeral = 'Story'
     else:
         ephemeral = 'Post'
-    title = """{0} {1} {2}: {3}""".format(
-            display_name, service, ephemeral, text.split('\n')[0])
+    title = """{0} {1} {2}""".format(
+            display_name, service, ephemeral)
+    if text is None:
+        text = ''
+    else:
+        title += ': ' + text.split('\n')[0]
     guid = link = 'https://selca.kastden.org/post/' + str(post_id)
     date = entries[0]['post']['created_at'].replace(' ', 'T')
     description = text
