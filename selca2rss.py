@@ -84,7 +84,7 @@ for post_id in posts:
     title = """{0} {1} {2}: {3}""".format(
             display_name, service, ephemeral, text.split('\n')[0])
     guid = link = 'https://selca.kastden.org/post/' + str(post_id)
-    date = entries[0]['post']['created_at']
+    date = entries[0]['post']['created_at'].replace(' ', 'T')
     description = text
     print("""
     <item>
