@@ -76,11 +76,11 @@ for post_id in posts:
     if text is None:
         text = '-'
     display_name = entries[0]['owner']['display_name']
-    service = entries[0]['post']['service']
+    service = entries[0]['post']['service'].capitalize()
     if entries[0]['post']['ephemeral']:
-        ephemeral = 'story'
+        ephemeral = 'Story'
     else:
-        ephemeral = 'post'
+        ephemeral = 'Post'
     title = """{0} {1} {2}: {3}""".format(
             display_name, service, ephemeral, text.split('\n')[0])
     guid = link = 'https://selca.kastden.org/post/' + str(post_id)
