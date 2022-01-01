@@ -18,6 +18,7 @@
 import json
 import requests
 import sys
+import re
 from datetime import datetime
 from lxml import html
 from html import escape
@@ -25,11 +26,10 @@ from html import escape
 user = sys.argv[1]
 url = 'https://www.tiktok.com/@' + user
 
-headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36' }
-
-page = requests.get(url, headers)
+page = requests.get(url)
 tree = html.fromstring(page.text)
-data_json = tree.xpath('//*[@id="__NEXT_DATA__"]/text()')[0]
+data = tree.xpath('//*[@id="sigi-persisted-data"]/text()')[0]
+data_json = re.search("window\['SIGI_STATE'\]=(.+)[,;][a-zA-Z]", data).group(1)
 data_dict = json.loads(data_json)
 
 feed_description = feed_title = user + ' TikTok'
@@ -40,12 +40,13 @@ print("""<?xml version="1.0" encoding="UTF-8"?>
 <description>{1}</description>
 <link>{2}</link>""".format(feed_title, feed_description, url))
 
-for tiktok in data_dict['props']['pageProps']['items']:
+for tiktok_id in data_dict['ItemModule']:
+    tiktok = data_dict['ItemModule'][str(tiktok_id)]
     title = tiktok['desc']
     if not title:
         title = 'New video from ' + user
-    guid = link = 'https://www.tiktok.com/@' + user + '/video/' + tiktok['id']
-    date = datetime.fromtimestamp(tiktok['createTime']).isoformat()
+    guid = link = 'https://www.tiktok.com/@' + user + '/video/' + tiktok_id
+    date = datetime.fromtimestamp(int(tiktok['createTime'])).isoformat()
     description = tiktok['music']['title'] + ' - ' + \
         tiktok['music']['authorName']
     print("""
