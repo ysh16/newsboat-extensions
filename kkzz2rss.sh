@@ -25,46 +25,31 @@ cat <<EOF
 <link>https://kkzz.kr/</link>
 EOF
 
-echo "$html" | grep 'class="gallery-list-head"' \
-	| awk 'BEGIN { RS="gallery-item-box" }
-		/\/?vid=[0-9]+/ { gsub(/\n/, ""); print }' \
-	| while read -r line; do
-		link=$(echo "$line" | awk '{
-			gsub(/" title=".*$/, "")
-			gsub(/^.*href="/, "")
-			print; exit }')
-		item_html=$(curl -s "$link")
-		title=$(echo "$item_html" | awk '
-			BEGIN { FS="\"" }
-			/name="title"/ {
-				print $(NF-1)
-				exit
-			}')
-		description=$(echo "$item_html" | awk '
-			BEGIN { print "<![CDATA[" }
-			/<iframe/ {
-				gsub(/^.*src="/, "")
-				gsub(/".*$/, "")
-				if ($0 ~ /gfycat\.com\/IFR\/[a-zA-Z]/)
-					sub(/IFR\//, "")
-				print "<a href=\"" $0 "\"></href>"
+echo "$html" | grep 'class="gallery-name"' \
+	| awk -v today="$(TZ='Asia/Seoul' date +%F)" '
+			BEGIN {
+				RS = "gallery-item-box"
+				FS = "[\"<>]"
 			}
-			END { print "]]>" }')
-		date=$(echo "$item_html" | awk '
-			BEGIN { FS="\"" }
-			/property="article:published_time"/ {
-				print $(NF-1)
-				exit
-			}')
+			/\/?vid=[0-9]+/ {
+				date = today
+				for (i = 0; i < NF; i++) {
+					if ($i ~ /href/ && $(i+2) ~ /title/) {
+						link = $(i+1)
+						title = $(i+3)
+					}
+					if ($i ~ /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)
+						date = $i ""
+				}
+				print date, link, title
+			}' \
+	| while read -r date link title; do
 		cat <<-EOF
 		<item>
 		<title>$title</title>
 		<link>$link</link>
 		<guid>$link</guid>
 		<pubDate>$(date -u -d"$date" +'%a, %d %b %Y %H:%M:%S +0900')</pubDate>
-		<description>
-		$description
-		</description>
 		</item>
 		EOF
 done
