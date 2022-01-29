@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# tiktok2rss.py - Takes a gfycat username as argument
+# gfycat2rss.py - Takes a gfycat username as argument
 # Copyright (C) 2022  ysh <thinkingaboutshu@waifu.club>
 #
 # This program is free software: you can redistribute it and/or modify
