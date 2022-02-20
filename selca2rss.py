@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# selca2rss.py - Takes selca.kastden.org owner or group url as first argument.
+# selca2rss.py - Takes selca.kastden.org owner, group or hashtag url as first argument.
 # Copyright (C) 2021  ysh <thinkingaboutshu@waifu.club>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@ data = """
 Content-Disposition: form-data; name="page_type"\n
 {0}
 --{2}
-Content-Disposition: form-data; name="group"\n
+Content-Disposition: form-data; name="{0}"\n
 {1}
 --{2}
 Content-Disposition: form-data; name="limit"\n
@@ -52,7 +52,7 @@ yes
 --{2}--
 """.format(type_, owner, boundary)
 
-resp = requests.post(url, headers=headers, data=data)
+resp = requests.post(url, headers=headers, data=data.encode('utf-8'))
 data_dict = json.loads(resp.text)
 
 # assemble dict of a list of entries with post_id as key
