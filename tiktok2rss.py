@@ -18,7 +18,6 @@
 import json
 import requests
 import sys
-import re
 from datetime import datetime
 from lxml import html
 from html import escape
@@ -30,8 +29,7 @@ headers = {
 
 page = requests.get(url, headers=headers)
 tree = html.fromstring(page.text)
-data = tree.xpath('//*[@id="sigi-persisted-data"]/text()')[0]
-data_json = re.search("window\['SIGI_STATE'\]=(.+)[,;][a-zA-Z]", data).group(1)
+data_json = tree.xpath('//*[@id="SIGI_STATE"]/text()')[0]
 data_dict = json.loads(data_json)
 
 feed_description = feed_title = user + ' TikTok'
