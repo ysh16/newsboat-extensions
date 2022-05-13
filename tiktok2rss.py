@@ -25,8 +25,10 @@ from html import escape
 
 user = sys.argv[1]
 url = 'https://www.tiktok.com/@' + user
+headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0'}
 
-page = requests.get(url)
+page = requests.get(url, headers=headers)
 tree = html.fromstring(page.text)
 data = tree.xpath('//*[@id="sigi-persisted-data"]/text()')[0]
 data_json = re.search("window\['SIGI_STATE'\]=(.+)[,;][a-zA-Z]", data).group(1)
