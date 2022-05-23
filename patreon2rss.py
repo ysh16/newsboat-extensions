@@ -27,8 +27,11 @@ resp = requests.get('https://www.patreon.com/' + name)
 campaign_id = re.search(r'/campaign/([0-9]+)', resp.text).group(1)
 
 url = 'https://www.patreon.com/api/posts?filter[campaign_id]=' + campaign_id + "&sort=-published_at&json-api-version=1.0"
+headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0',
+    'referer': 'https://www.patreon.com/' + name + '/posts'}
 
-resp = requests.get(url)
+resp = requests.get(url, headers=headers)
 data = json.loads(resp.text)
 
 feed_title = data['included'][0]['attributes']['vanity']
