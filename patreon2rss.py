@@ -16,11 +16,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import sys
+import re
 import requests
 import json
 from html import escape
 
-campaign_id = sys.argv[1]
+name = sys.argv[1]
+
+resp = requests.get('https://www.patreon.com/' + name)
+campaign_id = re.search(r'/campaign/([0-9]+)', resp.text).group(1)
+
 url = 'https://www.patreon.com/api/posts?filter[campaign_id]=' + campaign_id + "&sort=-published_at&json-api-version=1.0"
 
 resp = requests.get(url)
