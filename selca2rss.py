@@ -97,9 +97,8 @@ for post_id in posts:
     <guid>{2}</guid>
     <pubDate>{3}</pubDate>
     <description>{4}
-
-    Added at: {5}
     <![CDATA[
+    <p>Added at: {5}</p>
     """.format(escape(title), link, guid, date, escape(description), added_at))
 
     for entry in entries:
