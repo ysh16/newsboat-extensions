@@ -89,6 +89,7 @@ for post_id in posts:
     guid = link = 'https://selca.kastden.org/post/' + str(post_id)
     date = entries[0]['post']['created_at'].replace(' ', 'T')
     description = text
+    added_at = entries[0]['post']['created_at']
     print("""
     <item>
     <title>{0}</title>
@@ -96,8 +97,10 @@ for post_id in posts:
     <guid>{2}</guid>
     <pubDate>{3}</pubDate>
     <description>{4}
+
+    Added at: {5}
     <![CDATA[
-    """.format(escape(title), link, guid, date, escape(description)))
+    """.format(escape(title), link, guid, date, escape(description), added_at))
 
     for entry in entries:
         filename = entry['media']['filename']
