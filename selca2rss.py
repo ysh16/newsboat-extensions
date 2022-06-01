@@ -29,7 +29,7 @@ type_ = args[3]
 owner = args[4]
 
 boundary = '----Boundary' \
-         + ''.join(random.sample(string.ascii_letters + string.digits, 16))
+    + ''.join(random.sample(string.ascii_letters + string.digits, 16))
 
 headers = dict()
 headers['content-type'] = 'multipart/form-data; boundary=' + boundary
@@ -62,7 +62,7 @@ for entries in data_dict['entries']:
     posts.setdefault(post_id, []).append(entries)
 
 feed_description = feed_title = """{0} {1} Selca""".format(
-        owner.capitalize(), type_.capitalize())
+    owner.capitalize(), type_.capitalize())
 print("""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
@@ -106,7 +106,7 @@ for post_id in posts:
         filename = entry['media']['filename']
         media_id = entry['media']['media_id']
         original = """https://selca.kastden.org/original/{0}/{1}""".format(
-                media_id, filename)
+            media_id, filename)
         print('<img src="' + original + '"/>')
 
     print("""
