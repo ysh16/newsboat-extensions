@@ -20,7 +20,7 @@ import re
 from urllib.parse import unquote as url_unquote
 from xml.sax.saxutils import unescape as xml_unescape, escape as xml_escape
 
-proxy_re = r'https?://bibliogram\..*\/(image|video)proxy\?url='
+proxy_re = r'https?://bibliogram\..*/(image|video)proxy/[a-zA-Z0-9]+\.[a-z0-9]+\?url='
 
 for line in sys.stdin:
     fields = line.split('"')
