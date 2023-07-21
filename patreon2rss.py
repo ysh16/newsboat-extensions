@@ -47,7 +47,7 @@ print("""<?xml version="1.0" encoding="UTF-8"?>
 
 for post in data['data']:
     title = post['attributes']['title']
-    link = post['attributes']['patreon_url']
+    link = 'https://www.patreon.com' + post['attributes']['patreon_url']
     date = post['attributes']['edited_at']
     description = post['attributes']['teaser_text']
     if description is None:
